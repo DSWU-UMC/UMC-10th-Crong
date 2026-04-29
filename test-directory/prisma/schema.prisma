@@ -25,7 +25,7 @@ model User {
   phoneNumber   String   @map("phone_number") @db.VarChar(15)
 
   userFavorCategories UserFavorCategory[]
-
+  reviews             UserStoreReview[] 
   @@map("user")
 }
 
@@ -64,4 +64,5 @@ model UserStoreReview {
   content String @db.Text
 
   store Store @relation(fields: [storeId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])  
 }
