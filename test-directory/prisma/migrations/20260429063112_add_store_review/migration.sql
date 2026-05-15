@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE `UserStoreReview` ADD CONSTRAINT `UserStoreReview_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
