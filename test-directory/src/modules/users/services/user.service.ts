@@ -1,8 +1,7 @@
-import { UserSignUpRequest } from "../dtos/user.dto.js"; //인터페이스 가져오기
-import { responseFromUser } from "../dtos/user.dto.js";
+import { UserSignUpRequest, UserResponse } from "../dtos/user.dto.js"; //인터페이스 가져오기
 import { addUser, getUser, getUserPreferencesByUserId, setPreference } from "../repositories/user.repository.js";
 
-export const userSignUp = async (data: UserSignUpRequest) => {
+export const userSignUp = async (data: UserSignUpRequest): Promise<UserResponse> => {
   const joinUserId = await addUser({
     email: data.email,
     name: data.name,
@@ -22,7 +21,10 @@ export const userSignUp = async (data: UserSignUpRequest) => {
   }
 
   const user = await getUser(joinUserId);
-  const preferences = await getUserPreferencesByUserId(joinUserId);
-
-  return responseFromUser({ user, preferences });
+  const userId = user!.id;
+  const preferences = (await getUserPreferencesByUserId(joinUserId)).map((obj) => obj.foodCategory.name);
+  return <UserResponse>{
+    userId,
+    preferences,
+  };
 };
